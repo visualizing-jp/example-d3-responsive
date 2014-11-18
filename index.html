@@ -11,16 +11,16 @@ body {
 
 #chart {
     width: 100%;
-    height: 100%;
     background-color: #FFF;
 }
 
 </style>
-<title></title>
+<title>example-d3-responsive : visualizing.jp</title>
 </head>
 
 <body>
 <div id="chart"></div>
+
 <script src="http://d3js.org/d3.v3.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script>
@@ -33,9 +33,18 @@ var svg = d3.select("#chart").append("svg")
         .attr("width", initWidth)
         .attr("height", initHeight);
 
-var container = $("#container"); //set svg id you want fix fize with browser window.
+//set svg id you want fix fize with browser window.
+var container = $("#container");
 var containerParent = container.parent();
 
+//bang when you resize browser window.
+$(window).on("resize", function() {
+    var _targetWidth = containerParent.width();
+    container.attr("width", _targetWidth);
+    container.attr("height", Math.round(_targetWidth / aspect));
+}).trigger("resize");
+
+//below is just a example.
 var gWidth = containerParent.width();
 var gHeight = Math.round(gWidth/aspect);
 
@@ -73,13 +82,6 @@ var mainLoop = function() {
 };
 
 d3.timer( mainLoop(), interval );
-
-//bang when you resize browser window.
-$(window).on("resize", function() {
-    var _targetWidth = containerParent.width();
-    container.attr("width", targetWidth);
-    container.attr("height", Math.round(targetWidth / aspect));
-}).trigger("resize");
 
 </script>
 </body>
